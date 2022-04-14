@@ -230,7 +230,7 @@ class TransactionService {
   		totalRecords,
   		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
-  			age: helper.convertToUTCDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),
+  			age: helper.convertTimestampToDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,
@@ -247,7 +247,7 @@ class TransactionService {
    */
   static formatTransaction = transaction => ({
   	...transaction,
-  	deadline: helper.convertDeadlinetoDate(transaction.deadline.adjustedValue),
+  	deadline: helper.networkTimestamp(transaction.deadline.adjustedValue),
   	maxFee: helper.toNetworkCurrency(Number(transaction.maxFee.toString())),
   	signer: transaction.signer.address.plain(),
   	transactionBody: this.formatTransactionBody(transaction),
@@ -632,7 +632,7 @@ class TransactionService {
 	  const transactionObj = {
 		  ...transactionDTO,
 		  transactionType: transactionDTO.type,
-		  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.adjustedValue),
+		  deadline: helper.networkTimestamp(transactionDTO.deadline.adjustedValue),
 		  maxFee: helper.toNetworkCurrency(transactionDTO.maxFee),
 		  signer: transactionDTO.signer.address.plain(),
 		  transactionInfo: this.formatTransactionInfo(transactionDTO.transactionInfo)
@@ -716,7 +716,7 @@ class TransactionService {
 					  signer: cosignature.signer.address.plain()
 				  };
 			  }) : [],
-			  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.adjustedValue),
+			  deadline: helper.networkTimestamp(transactionDTO.deadline.adjustedValue),
 			  maxFee: helper.toNetworkCurrency(transactionDTO.maxFee),
 			  signer: transactionDTO.signer.address.plain(),
 			  transactionInfo: this.formatTransactionInfo(transactionDTO.transactionInfo),
