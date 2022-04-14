@@ -32,6 +32,7 @@
 				"icon": "IconHomeCurrencyUsd"
 			}
 		]
-	}
+	},
+	"timezone": "Local"
 }
 
